@@ -101,8 +101,6 @@ Future plans:
 
 ## 0. Install Tools
 
-Certainly! Here's the rewritten section you asked for, preserving all the content but improving clarity, grammar, and structure:
-
 ---
 
 ### **Jailbreaking an iOS Device (Palera1n Method)**
@@ -221,57 +219,40 @@ sudo palera1n --force-revert -V
 
 ---
 
-### Cydia Sources and Tools
+### Sileo/Zebra Sources and Tools
 
-Add the following sources to Cydia:
+Add the following sources to Sileo or Zebra (both work):
+* [BigBoss] (http://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/)
+* [AppSyncUnefied.deb] (https://github.com/akemin-dayo/AppSync/releases/tag/116.0)
+* [Merona] (https://repo.co.kr)
+* [ElleKit] (https://ellekit.space)
+* [Frida](https://build.frida.re)
+* [Havoc](https://havoc.app)
+* [jjolano](https://ios.jjolano.me)
 
-* [build.frida.re](https://build.frida.re)
-* [cydia.akemi.ai](https://cydia.akemi.ai)
-* [repo.co.kr](https://repo.co.kr)
-* [havoc.app](https://havoc.app)
-* [julioverne.github.io](https://julioverne.github.io)
+Install required tools on your iOS device using Sileo/Zebra:
 
-Install required tools on your iOS device using Cydia:
+* libAPToast (BigBoss) **pre-requisite for the rest**
+* Filza (BigBoss) **pre-requisite for AppSync Unefied**
+* A-Bypass (Merona)
+* AppSync Unified (Github deb package. Download directly, open with Filza and click Install)
+* ElleKit (ElleKit)
+* Frida (Frida)
+* ReProvision Reborn (Havoc)
+* Shadow (jjolano) **replacement for iOS 13 SSL Kill Switch, will see if it works/to be tested**
+* PreferenceLoader (palera1n)
+* Cycript (palera1n strap)
+* nano (palera1n strap)
+* dpkg (palera1n strap)
+* SQLite 3.x (palera1n strap)
+* wget (palera1n strap)
+* zip (palera1n strap)
 
-* A-Bypass
-* AppSync Unified
-* Cycript
-* Cydia Substrate
-* Debian Packager
-* Frida \([fix for v16+ installation issue](https://github.com/frida/frida/issues/2355#issuecomment-1386757290))
-* nano
-* PreferenceLoader
-* ReProvision Reborn
-* SSL Kill Switch 2 (iOS 13)
-* SQLite 3.x
-* wget
-* zip
-
-Over time, some apps might start throwing errors due to the new updates, if reinstalling them using Cydian does not solve the issues, then try to uninstall them completely and install them again.
-
-### SSL Kill Switch 2
-
-The following project is the original SSL Kill Switch 2 project which is discontinued and not supported on devices with iOS v13 and grater. To download the most up-to-date project, check the [julioverne.github.io](https://julioverne.github.io) repository in Cydia.
-
-[SSH](#ssh-to-your-ios-device) to your iOS device, then, download and install [SSL Kill Switch 2](https://github.com/nabla-c0d3/ssl-kill-switch2/releases):
-
-```fundamental
-wget https://github.com/nabla-c0d3/ssl-kill-switch2/releases/download/0.14/com.nablac0d3.sslkillswitch2_0.14.deb
-
-dpkg -i com.nablac0d3.sslkillswitch2_0.14.deb
-
-killall -HUP SpringBoard
-```
-
-Uninstall SSL Kill Switch 2:
-
-```fundamental
-dpkg -r --force-all com.nablac0d3.sslkillswitch2
-```
+Over time, some apps might start throwing errors due to the new updates, if reinstalling them does not solve the issues, then try to uninstall them completely and install them again.
 
 ### Kali Linux Tools
 
-Install required tools on your Kali Linux:
+Install required tools on your Linux:
 
 ```fundamental
 apt-get -y install docker.io

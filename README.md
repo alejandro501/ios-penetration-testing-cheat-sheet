@@ -307,6 +307,80 @@ Uninstall:
 docker image rm opensecurity/mobile-security-framework-mobsf
 ```
 
+### MacOS System
+
+#### **📹 Reference**
+
+Based on setup from:  
+[YouTube: macOS Virtual Machine Guide](https://www.youtube.com/watch?v=Qa6y_CiyAMA&t=463s)
+
+#### **1. Install Quickemu**
+
+```bash
+sudo apt-add-repository ppa:flexiondotorg/quickemu
+sudo apt update
+sudo apt install quickemu
+```
+
+#### **2. Download macOS Image**
+
+```bash
+quickget macos catalina  # For macOS Catalina
+# Alternative versions available: big-sur, monterey, ventura
+```
+
+#### **3. Start the VM**
+
+```bash
+quickemu --vm macos-catalina.conf
+```
+
+---
+
+#### **4. macOS Installation Process**
+
+1. **Boot Menu Options:**
+   - Select `macOS Base System`
+   
+2. **Disk Setup:**
+   - Select `Disk Utility`
+   - Erase disk and name partition (e.g., `macos`)
+   - Close Disk Utility
+
+3. **OS Installation:**
+   - Select `Reinstall macOS ${YourDistro}`
+   - Follow installer prompts until you see your named partition
+   - Select your partition (`macos`) to complete installation
+
+4. **Initial Setup:**
+   - Complete macOS first-run configuration
+   - enable trimforce so data won't pile up
+```bash
+sudo trimforce enable
+```
+
+---
+
+### **⚙️ Recommended VM Configuration**
+
+Edit the generated `.conf` file for better performance:
+
+```conf
+#!/usr/bin/quickemu --vm
+# initial configuration -- no need to touch, specific to your deployed OS
+guest_os="macos"
+disk_img="macos-catalina/disk.qcow2"
+img="macos-catalina/RecoveryImage.img"
+disk_size="128G"
+macos_release="catalina"
+# additional configuration
+cpu_cores=4
+ram="8G"
+```
+
+---
+
+
 ## 1. Basics
 
 ### Install/Uninstall an IPA
@@ -1054,11 +1128,11 @@ Production app (i.e., build) should not be debuggable.
 
 ## 11. Useful Websites and Tools
 
-| URL | Description |
-| --- | --- |
-| [developer.apple.com/account](https://developer.apple.com/account) | Official iOS documentation, create code signing certificates, etc. |
-| [developer.apple.com/apple-pay/sandbox-testing](https://developer.apple.com/apple-pay/sandbox-testing) | Test debit/credit cards for Apple Pay. |
-| [streaak/keyhacks](https://github.com/streaak/keyhacks) | Validate various API keys. |
-| [zxing.org/w/decode.jspx](https://zxing.org/w/decode.jspx) | Decode QR codes. |
-| [youtube.com/user/iDeviceMovies](https://www.youtube.com/user/iDeviceMovies) | Useful videos about jailbreaking, etc. |
-| [ipsw.me/product/iPhone](https://ipsw.me/product/iPhone) | Firmwares for Apple devices. |
+| URL                                                                                                    | Description                                                        |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| [developer.apple.com/account](https://developer.apple.com/account)                                     | Official iOS documentation, create code signing certificates, etc. |
+| [developer.apple.com/apple-pay/sandbox-testing](https://developer.apple.com/apple-pay/sandbox-testing) | Test debit/credit cards for Apple Pay.                             |
+| [streaak/keyhacks](https://github.com/streaak/keyhacks)                                                | Validate various API keys.                                         |
+| [zxing.org/w/decode.jspx](https://zxing.org/w/decode.jspx)                                             | Decode QR codes.                                                   |
+| [youtube.com/user/iDeviceMovies](https://www.youtube.com/user/iDeviceMovies)                           | Useful videos about jailbreaking, etc.                             |
+| [ipsw.me/product/iPhone](https://ipsw.me/product/iPhone)                                               | Firmwares for Apple devices.                                       |

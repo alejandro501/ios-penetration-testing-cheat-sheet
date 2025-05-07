@@ -1,3 +1,9 @@
+How this version differs from the original: I set it up with iPhone7 / iOS 15.8.4 and Elementary OS 7.1, changing parts where setup and progress differs from the original one. 
+
+Last full system setup: May of 2025
+
+---
+
 # iOS Penetration Testing Cheat Sheet
 
 This is more of a checklist for myself. May contain useful tips and tricks. **Still need to add a lot of things.**
@@ -43,9 +49,9 @@ Future plans:
 **0. [Install Tools](#0-install-tools)**
 
 * [Jailbreaking an iOS Device](#jailbreaking-an-ios-device)
-* [Cydia Sources and Tools](#cydia-sources-and-tools)
+* [Sileo Sources and Tools](#sileo-sources-and-tools)
 * [SSL Kill Switch 2](#ssl-kill-switch-2)
-* [Kali Linux Tools](#kali-linux-tools)
+* [Linux Tools](#linux-tools)
 * [Mobile Security Framework (MobSF)](#mobile-security-framework-mobsf)
 
 **1. [Basics](#1-basics)**
@@ -250,16 +256,23 @@ Install required tools on your iOS device using Sileo/Zebra:
 
 Over time, some apps might start throwing errors due to the new updates, if reinstalling them does not solve the issues, then try to uninstall them completely and install them again.
 
-### Kali Linux Tools
+### Linux Tools
 
 Install required tools on your Linux:
 
 ```fundamental
-apt-get -y install docker.io
+sudo apt-get -y install docker.io
 
-systemctl start docker
+sudo systemctl start docker
 
-apt-get -y install ideviceinstaller libimobiledevice-utils libplist-utils nuclei radare2 sqlite3 sqlitebrowser xmlstarlet
+sudo add-apt-repository universe
+sudo apt-get update
+
+sudo apt-get -y install ideviceinstaller libimobiledevice-utils libplist-utils sqlite3 sqlitebrowser xmlstarlet
+
+sudo snap install radare2 --classic
+
+go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
 pip3 install frida-tools objection property-lister file-scraper
 ```
@@ -312,7 +325,7 @@ ideviceinstaller -U com.someapp.dev
 
 ---
 
-On your Kali Linux, start a local web server, and put an IPA in the web root directory (e.g., `somedir`):
+On your Linux, start a local web server, and put an IPA in the web root directory (e.g., `somedir`):
 
 ```fundamental
 mkdir somedir
@@ -458,7 +471,7 @@ cd /var/mobile/Containers/Data/Application/YYY...YYY/
 
 If you want to download a whole directory from your iOS device, see section [Download/Upload Files and Directories](#downloadupload-files-and-directories).
 
-I preffer downloading the app specific directories, and then doing the [file inspection](#4-inspect-files) on my Kali Linux.
+I preffer downloading the app specific directories, and then doing the [file inspection](#4-inspect-files) on my Linux.
 
 Search for files and directories from the current directory:
 
@@ -596,7 +609,7 @@ To inspect the content, navigate to `Browse Data` tab, expand `Table` dropdown m
 
 <p align="center">Figure 7 - DB Browser for SQLite</p>
 
-To inspect/edit database files on your iOS device, use [SQLite 3](#cydia-sources-and-tools); [SSH](#ssh-to-your-ios-device) to your iOS device and run the following commands:
+To inspect/edit database files on your iOS device, use [SQLite 3](#sileo-sources-and-tools); [SSH](#ssh-to-your-ios-device) to your iOS device and run the following commands:
 
 ```sql
 sqlite3 somefile
@@ -949,7 +962,7 @@ zip -r repackaged.ipa Payload
 rm -rf Payload
 ```
 
-On your Kali Linux, download the repackaged IPA:
+On your Linux, download the repackaged IPA:
 
 ```fundamental
 scp root@192.168.1.10:/private/var/containers/Bundle/Application/XXX...XXX/repackaged.ipa ./
@@ -961,7 +974,7 @@ If you want to pull a decrypted IPA from your iOS device, see section [Pull a De
 
 ### Monitor the System Log
 
-On your Kali Linux, run the following command:
+On your Linux, run the following command:
 
 ```fundamental
 idevicesyslog -p 1337

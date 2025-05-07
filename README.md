@@ -50,7 +50,6 @@ Future plans:
 
 * [Jailbreaking an iOS Device](#jailbreaking-an-ios-device)
 * [Sileo Sources and Tools](#sileo-sources-and-tools)
-* [SSL Kill Switch 2](#ssl-kill-switch-2)
 * [Linux Tools](#linux-tools)
 * [Mobile Security Framework (MobSF)](#mobile-security-framework-mobsf)
 
@@ -999,8 +998,6 @@ ios sslpinning disable --quiet
 
 objection -g com.someapp.dev explore --startup-command 'ios sslpinning disable --quiet'
 ```
-
-Also, on your iOS device, check [SSL Kill Switch 2](#ssl-kill-switch-2) in `Settings` app.
 
 ---
 

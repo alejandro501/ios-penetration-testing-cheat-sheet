@@ -125,8 +125,6 @@ You can jailbreak your iPhone using [palera1n](https://palera.in), a semi-tether
 
 ---
 
-### **🔧 Palera1n Jailbreak Guide (iPhone 7, iOS 15.8.4)**
-
 #### **1. Initial Setup (First Run)**
 
 ```bash
@@ -208,20 +206,11 @@ sudo palera1n --force-revert -V
 
 ---
 
-### ✅ After Jailbreak
+#### ✅ After Jailbreak
 
 * Open the **Palera1n Loader**
 * Tap **Install Sileo**
 * Begin installing tools and tweaks
-
----
-
-### ⚠️ Disclaimer
-
-* This is a **semi-tethered jailbreak**—you must re-run palera1n after every reboot to regain jailbreak state
-* Only use trusted repositories and tweaks
-* Disable OTA updates via: Settings → General → Software Update
-
 ---
 
 ### Sileo/Zebra Sources and Tools
@@ -252,6 +241,7 @@ Install required tools on your iOS device using Sileo/Zebra:
 * SQLite 3.x (palera1n strap)
 * wget (palera1n strap)
 * zip (palera1n strap)
+* openssh (palera1n strap)
 
 Over time, some apps might start throwing errors due to the new updates, if reinstalling them does not solve the issues, then try to uninstall them completely and install them again.
 
@@ -424,11 +414,34 @@ If you don't mind sending logs to China. Install an IPA using [3uTools](https://
 
 ### SSH to Your iOS Device
 
-```fundamental
-ssh root@192.168.1.10
-```
+#### **1. Find Your iPhone’s IP Address**
+- **On iPhone:**  
+  - Go to **Settings → Wi-Fi** → Tap the **ⓘ icon** next to your network.  
+  - Your local IP (e.g., `192.168.0.248`) is listed under **IP Address**.
 
-Default password is `alpine`.
+---
+
+#### **2. Connect via SSH**
+
+##### **Default Credentials**  
+```bash
+ssh root@[IP_ADDRESS]  # e.g., ssh root@192.168.0.248
+```
+- **Password:** `alpine`
+
+##### **If `alpine` Doesn’t Work**  
+1. Log in as `mobile` (uses the same password by default):  
+   ```bash
+   ssh mobile@[IP_ADDRESS]
+   ```
+2. Once logged in, reset the `root` password:  
+   ```bash
+   passwd root
+   ```
+   - *No old password needed if logged in as `mobile`!*  
+   - Set a new password and confirm.  
+
+3. Retry SSH as `root` with the new password.  
 
 ### Download/Upload Files and Directories
 

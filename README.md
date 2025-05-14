@@ -411,7 +411,7 @@ wlp0s20f3: flags=0101<UP,BROADCAST,RUNNING,MULTICAST>  mtu 0100
 - On **iPhone**
   - Go to Settings -> Your WiFi Network -> Proxy manual connections
   - Host: `192.168.0.195` - my IP I extracted from `ifconfig`
-  - Port: 8082 - my port I set up in **burp**
+  - Port: `8082` - my port I set up in **burp**
   - Go to **browser**
     - Go to ``http://burp``
     - Download **CA Certificate** - top right corner

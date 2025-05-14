@@ -388,7 +388,7 @@ ram="8G"
 ### Connect To Burp (other proxies are okay too of course)
 
 #### 1. Set up port for incoming connections
-
+Reference: [Burp Suite Setup & Usage for iOS Penetration Testing] (https://www.youtube.com/watch?v=ydsUFR0sces)
 - Go to **burp** -> Proxy -> Options
   - Set up port eg. 8082 for **All Incoming Connections**
 - On **Linux** look for your IP address on the same network as your WiFi Network

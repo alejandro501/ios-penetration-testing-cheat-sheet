@@ -6,17 +6,13 @@ Last full system setup: May of 2025
 
 # iOS Penetration Testing Cheat Sheet
 
-This is more of a checklist for myself. May contain useful tips and tricks. **Still need to add a lot of things.**
-
 Everything was tested on Elementary OS 7.1 Horus (64-bit) and iPhone 7 with iOS v15.8.4 using palera1n rootful jailbreak (checkm8 exploit).
-
-For help with any of the tools type `<tool_name> [-h | -hh | --help]` or `man <tool_name>`.
 
 If you didn't already, read [OWAS MASTG](https://mas.owasp.org/MASTG/) \([GitHub](https://github.com/OWASP/owasp-mastg)\) and [OWASP MASVS](https://mas.owasp.org/MASVS/) \([GitHub](https://github.com/OWASP/owasp-masvs)\). You can download OWASP MASTG checklist from [here](https://github.com/OWASP/owasp-mastg/releases).
 
 I also recommend reading [Hacking iOS Applications](https://web.securityinnovation.com/hubfs/iOS%20Hacking%20Guide.pdf) and [HackTricks - iOS Pentesting](https://book.hacktricks.xyz/mobile-apps-pentesting/ios-pentesting).
 
-__In most cases, to be eligible for a bug bounty reward, you need to exploit a vulnerability with non-root priviledges, possibly building your own "malicious" app.__
+__In most cases, to be eligible for a bug bounty reward, you need to exploit a vulnerability with non-root privileges, possibly building your own "malicious" app.__
 
 Websites that you should use while writing the report:
 
@@ -28,21 +24,6 @@ Websites that you should use while writing the report:
 * [nvd.nist.gov/vuln-metrics/cvss/v3-calculator](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator)
 * [nvd.nist.gov/ncp/repository](https://nvd.nist.gov/ncp/repository)
 * [attack.mitre.org](https://attack.mitre.org)
-
-My other cheat sheets:
-
-* [Android Testing Cheat Sheet](https://github.com/ivan-sincek/android-penetration-testing-cheat-sheet)
-* [Penetration Testing Cheat Sheet](https://github.com/ivan-sincek/penetration-testing-cheat-sheet)
-* [WiFi Penetration Testing Cheat Sheet](https://github.com/ivan-sincek/wifi-penetration-testing-cheat-sheet)
-
-Future plans:
-
-* install Burp Proxy and ZAP certificates,
-* test widgets, push notifications, app extensions, and Firebase,
-* deeplink hijacking,
-* WebView attacks,
-* disassemble, reverse engineer, and resign an IPA,
-* future downgrades using SHSH BLOBS.
 
 ## Table of Contents
 
@@ -245,11 +226,43 @@ Install required tools on your iOS device using Sileo/Zebra:
 
 Over time, some apps might start throwing errors due to the new updates, if reinstalling them does not solve the issues, then try to uninstall them completely and install them again.
 
+
+### SSH to Your iOS Device
+
+#### **1. Find Your iPhone’s IP Address**
+- **On iPhone:**  
+  - Go to **Settings → Wi-Fi** → Tap the **ⓘ icon** next to your network.  
+  - Your local IP (e.g., `192.168.0.248`) is listed under **IP Address**.
+
+---
+
+#### **2. Connect via SSH**
+
+##### **Default Credentials**  
+```bash
+ssh root@[IP_ADDRESS]  # e.g., ssh root@192.168.0.248
+```
+- **Password:** `alpine`
+
+##### **If `alpine` Doesn’t Work**  
+1. Log in as `mobile` (uses the same password by default):  
+   ```bash
+   ssh mobile@[IP_ADDRESS]
+   ```
+2. Once logged in, reset the `root` password:  
+   ```bash
+   passwd root
+   ```
+   - *No old password needed if logged in as `mobile`!*  
+   - Set a new password and confirm.  
+
+3. Retry SSH as `root` with the new password.  
+
 ### Linux Tools
 
 Install required tools on your Linux:
 
-```fundamental
+```bash
 sudo apt-get -y install docker.io
 
 sudo systemctl start docker
@@ -372,6 +385,41 @@ ram="8G"
 
 ## 1. Basics
 
+### Connect To Burp (other proxies are okay too of course)
+
+#### 1. Set up port for incoming connections
+
+- Go to **burp** -> Proxy -> Options
+  - Set up port eg. 8082 for **All Incoming Connections**
+- On **Linux** look for your IP address on the same network as your WiFi Network
+```bash
+ifconfig
+```
+   - Example output (irrelevant info redacted). Here you can see my IP is `192.168.0.195`
+```bash
+wlp0s20f3: flags=0101<UP,BROADCAST,RUNNING,MULTICAST>  mtu 0100
+        inet 192.168.0.195  netmask 255.255.255.0  broadcast 192.168.0.255
+        inet6 xxxx::xxxx:xxxx:xxxx:xxxx  prefixlen 64  scopeid 0xxx<link>
+        ether xx:xx:xx:xx:xx:xx  txqueuelen 0101  (Ethernet)
+        RX packets 010101  bytes 0101010101 (115.5 MB)
+        RX errors 0  dropped 010  overruns 0  frame 0
+        TX packets 01010  bytes 01010010 (14.8 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+```
+
+- On **iPhone**
+  - Go to Settings -> Your WiFi Network -> Proxy manual connections
+  - Host: `192.168.0.195` - my IP I extracted from `ifconfig`
+  - Port: 8082 - my port I set up in **burp**
+  - Go to **browser**
+    - Go to ``http://burp``
+    - Download **CA Certificate** - top right corner
+  - Go to Settings -> General -> VPN & Device Management -> Portswigger CA -> Install
+  - Go to About -> Certificate Trust Settings -> Toggle **PortSwigger CA** on
+
+Now Proxying should work, verify by using your browser and seeing traffic in your proxy.
+
 ### Install/Uninstall an IPA
 
 Install an IPA:
@@ -406,43 +454,6 @@ If you have an Apple developer membership, you can code sign your apps for up to
 
 ---
 
-If you don't mind sending logs to China. Install an IPA using [3uTools](https://www.3u.com) desktop app. Jailbreak is required.
-
-<p align="center"><img src="https://github.com/ivan-sincek/ios-penetration-testing-cheat-sheet/blob/main/img/3uTools_sideloading.jpg" alt="Sideloading an IPA using 3uTools"></p>
-
-<p align="center">Figure 4 - Sideloading an IPA using 3uTools</p>
-
-### SSH to Your iOS Device
-
-#### **1. Find Your iPhone’s IP Address**
-- **On iPhone:**  
-  - Go to **Settings → Wi-Fi** → Tap the **ⓘ icon** next to your network.  
-  - Your local IP (e.g., `192.168.0.248`) is listed under **IP Address**.
-
----
-
-#### **2. Connect via SSH**
-
-##### **Default Credentials**  
-```bash
-ssh root@[IP_ADDRESS]  # e.g., ssh root@192.168.0.248
-```
-- **Password:** `alpine`
-
-##### **If `alpine` Doesn’t Work**  
-1. Log in as `mobile` (uses the same password by default):  
-   ```bash
-   ssh mobile@[IP_ADDRESS]
-   ```
-2. Once logged in, reset the `root` password:  
-   ```bash
-   passwd root
-   ```
-   - *No old password needed if logged in as `mobile`!*  
-   - Set a new password and confirm.  
-
-3. Retry SSH as `root` with the new password.  
-
 ### Download/Upload Files and Directories
 
 Tilde `~` is short for the root directory.
@@ -450,17 +461,17 @@ Tilde `~` is short for the root directory.
 Download a file or directory from your iOS device:
 
 ```fundamental
-scp root@192.168.1.10:~/somefile.txt ./
+scp root@192.168.0.248:~/somefile.txt ./
 
-scp -r root@192.168.1.10:~/somedir ./
+scp -r root@192.168.0.248:~/somedir ./
 ```
 
 Upload a file or directory to your iOS device:
 
 ```fundamental
-scp somefile.txt root@192.168.1.10:~/
+scp somefile.txt root@192.168.0.248:~/
 
-scp -r somedir root@192.168.1.10:~/
+scp -r somedir root@192.168.0.248:~/
 ```
 
 Use `nano` to edit files directly on your iOS device.

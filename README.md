@@ -197,10 +197,10 @@ sudo palera1n --force-revert -V
 ### Sileo/Zebra Sources and Tools
 
 Add the following sources to Sileo or Zebra (both work):
-* [BigBoss] (http://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/)
-* [AppSyncUnefied.deb] (https://github.com/akemin-dayo/AppSync/releases/tag/116.0)
-* [Merona] (https://repo.co.kr)
-* [ElleKit] (https://ellekit.space)
+* [BigBoss](http://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/)
+* [AppSyncUnefied.deb](https://github.com/akemin-dayo/AppSync/releases/tag/116.0)
+* [Merona](https://repo.co.kr)
+* [ElleKit](https://ellekit.space)
 * [Frida](https://build.frida.re)
 * [Havoc](https://havoc.app)
 * [jjolano](https://ios.jjolano.me)
@@ -388,7 +388,7 @@ ram="8G"
 ### Connect To Burp (other proxies are okay too of course)
 
 #### 1. Set up port for incoming connections
-Reference: [Burp Suite Setup & Usage for iOS Penetration Testing] (https://www.youtube.com/watch?v=ydsUFR0sces)
+Reference: [Burp Suite Setup & Usage for iOS Penetration Testing](https://www.youtube.com/watch?v=ydsUFR0sces)
 - Go to **burp** -> Proxy -> Options
   - Set up port eg. 8082 for **All Incoming Connections**
 - On **Linux** look for your IP address on the same network as your WiFi Network
